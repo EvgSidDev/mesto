@@ -18,7 +18,7 @@
   .popup {
     height: 322px;
     width: 282px;
-    padding: 123px calc(100vw/2 - 282px/2) calc(100vh - 123px) ;
+    padding: 123px calc(100vw/2 - 282px/2) calc(100vh - 123px);
     margin: 0;
   }
 }

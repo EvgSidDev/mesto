@@ -26,6 +26,7 @@ function togglePopup(e) {
 
 function saveChangesProfileEvent(e) {
   saveChangesProfile();
+  e.preventDefault();
 }
 
 function saveChangesProfileKeyDown(e) {
@@ -48,6 +49,6 @@ function closePopupWithoutSave() {
 
 editButtonProfile.addEventListener('click', openEditPopupProfile);
 closeButtonProfile.addEventListener('click', closePopupWithoutSave);
-submitButtonProfile.addEventListener('click', saveChangesProfileEvent);
+popup.addEventListener('submit', saveChangesProfileEvent);
 popup.addEventListener('keydown', saveChangesProfileKeyDown);
 
