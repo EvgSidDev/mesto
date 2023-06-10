@@ -1,0 +1,12 @@
+.popup__text-input {
+  margin-bottom: 30px;
+  height: 27px;
+  margin-left: 36px;
+  margin-right: 36px;
+  border: 0;
+  border-bottom: 1px solid #000000;
+}
+
+.popup__text-input:focus {
+  outline: none;
+}
