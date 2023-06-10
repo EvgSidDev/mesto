@@ -40,8 +40,14 @@ function saveChangesProfile() {
   togglePopup();
 }
 
+function closePopupWithoutSave() {
+  popupName.innerText = "";
+  popupStatus.innerText  = "";
+  togglePopup();
+}
+
 editButtonProfile.addEventListener('click', openEditPopupProfile);
-closeButtonProfile.addEventListener('click', togglePopup);
+closeButtonProfile.addEventListener('click', closePopupWithoutSave);
 submitButtonProfile.addEventListener('click', saveChangesProfileEvent);
 popup.addEventListener('keydown', saveChangesProfileKeyDown);
 
