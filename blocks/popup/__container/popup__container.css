@@ -1,19 +1,20 @@
-.popup__content {
+.popup__container {
   color: black;
   background-color: white;
   width: 430px;
-  height: 330px;
   display: flex;
   justify-content: space-around;
   flex-direction: column;
   position: relative;
   border-radius: 10px;
   box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+  margin: auto;
+  margin-top: 195px;
 }
 
 @media screen and (max-width: 700px) {
-  .popup__content {
-    height: 322px;
+  .popup__container {
+    margin-top: 123px;
     width: 282px;
   }
 }
