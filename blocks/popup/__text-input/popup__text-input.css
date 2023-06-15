@@ -1,7 +1,5 @@
 .popup__text-input {
   height: 27px;
-  margin-left: 36px;
-  margin-right: 36px;
   margin-bottom: 24px;
   border: 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
@@ -16,11 +14,4 @@
 
 .popup__text-input:focus {
   outline: none;
-}
-
-@media screen and (max-width: 700px) {
-  .popup__text-input {
-    margin-left: 22px;
-    margin-right: 22px;
-  }
 }

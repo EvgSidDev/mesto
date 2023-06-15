@@ -1,4 +1,5 @@
 const popup = document.querySelector(".popup");
+const popupForm = document.querySelector("form[name=edit-profile]");
 
 const editButtonProfile = document.querySelector(".profile__edit-button");
 const closeButtonProfile = document.querySelector(".popup__close-button");
@@ -31,5 +32,5 @@ function saveChangesProfile() {
 
 editButtonProfile.addEventListener('click', openEditPopupProfile);
 closeButtonProfile.addEventListener('click', togglePopup);
-popup.addEventListener('submit', saveChangesProfileEvent);
+popupForm.addEventListener('submit', saveChangesProfileEvent);
 
