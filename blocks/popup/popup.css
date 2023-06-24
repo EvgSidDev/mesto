@@ -6,9 +6,11 @@
   right: 0;
   height: 100vh;
   width: 100vw;
-  display: none;
+  display: flex;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.5s linear;
   flex-direction: column;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
   margin:  auto;
 }

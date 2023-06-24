@@ -25,65 +25,54 @@
     </section>
     <section class="elements">
       <ul class="elements__photos">
-        <li class="element">
-          <img src="images/karachaevsk.jpg" alt="Карачаевск" class="element__image">
-          <div class="element__caption">
-            <h2 class="element__title">Карачаевск</h2>
-            <button type="button" class="element__like"></button>
-          </div>
-        </li>
-        <li class="element">
-          <img src="images/Elbrus.jpg" alt="Эльбрус" class="element__image">
-          <div class="element__caption">
-            <h2 class="element__title">Гора Эльбрус</h2>
-            <button type="button" class="element__like"></button>
-          </div>
-        </li>
-        <li class="element">
-          <img src="images/dombai.jpg" alt="Домбай" class="element__image">
-          <div class="element__caption">
-            <h2 class="element__title">Домбай</h2>
-            <button type="button" class="element__like"></button>
-          </div>
-        </li>
-        <li class="element">
-          <img src="images/Elbrus.jpg" alt="Эльбрус" class="element__image">
-          <div class="element__caption">
-            <h2 class="element__title">Гора Эльбрус</h2>
-            <button type="button" class="element__like"></button>
-          </div>
-        </li>
-        <li class="element">
-          <img src="images/dombai.jpg" alt="Домбай" class="element__image">
-          <div class="element__caption">
-            <h2 class="element__title">Домбай</h2>
-            <button type="button" class="element__like"></button>
-          </div>
-        </li>
-        <li class="element">
-          <img src="images/karachaevsk.jpg" alt="Карачаевск" class="element__image">
-          <div class="element__caption">
-            <h2 class="element__title">Карачаево-Черкесия</h2>
-            <button type="button" class="element__like"></button>
-          </div>
-        </li>
       </ul>
     </section>
   </main>
   <footer class="footer">
     <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
   </footer>
-  <div class="popup">
+  <div class="popup" id="edit-profile">
     <div class="popup__container">
       <h2 class="popup__title">Редактировать профиль</h2>
-      <form name="edit-profile" method="post" class="popup__form-edit">
+      <form name="edit-profile" method="post" class="popup__form">
         <input id="input-name" name="name-for-profile" type="text" class="popup__text-input">
         <input id="input-status" name="status-for-profile" type="text" class="popup__text-input">
         <button type="submit" class="popup__submit">Сохранить</button>
       </form>
-      <button type="button" class="popup__close-button"></button>
+      <button type="button" class="popup__close-button" id="close-edit-profile"></button>
     </div>
   </div>
+  <div class="popup" id="add-photo">
+    <div class="popup__container">
+      <h2 class="popup__title">Новое место</h2>
+      <form name="add-photo" method="post" class="popup__form">
+        <input id="input-title-photo" name="title-for-photo" type="text" class="popup__text-input"
+          placeholder="Название">
+        <input id="input-url-photo" name="url-for-photo" type="text" class="popup__text-input"
+          placeholder="Ссылка на картинку">
+        <button type="submit" class="popup__submit">Создать</button>
+      </form>
+      <button type="button" class="popup__close-button" id="close-add-photo"></button>
+    </div>
+  </div>
+  <div class="popup" id="view-photo">
+    <div class="view">
+      <img src="./images/avatar.jpg" alt="Аватар пользователя" class="view__photo">
+      <p class="view__title"></p>
+      <button type="button" class="popup__close-button" id="close-view-photo"></button>
+    </div>
+  </div>
+  <template id="template-element">
+    <li class="element">
+      <img src="" alt="" class="element__image">
+      <div class="element__caption">
+        <h2 class="element__title"></h2>
+        <button type="button" class="element__like"></button>
+      </div>
+      <button type="button" class="element__delete"></button>
+    </li>
+  </template>
+  <script src="./scripts/constants.js"></script>
   <script src="./scripts/index.js"></script>
 </body>
 
