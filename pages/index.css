@@ -43,7 +43,6 @@
 @import url(../blocks/popup/__submit/popup__submit.css);
 @import url(../blocks/popup/__close-button/popup__close-button.css);
 @import url(../blocks/popup/_opacity/_dark/popup_opacity_dark.css);
-@import url(../blocks/popup/_opacity/_light/popup_opacity_light.css);
 
 /* popup-view */
 @import url(../blocks/view/view.css);
