@@ -16,7 +16,7 @@ function initiateCard(name, link) {
   likeElement.addEventListener("click", toggleDarkLike);
 
   const deleteElement = photoElement.querySelector(".element__delete");
-  deleteElement.addEventListener("click", deletePlace);
+  deleteElement.addEventListener("click", deleteCard);
 
   const imageElement = photoElement.querySelector(".element__image");
   imageElement.addEventListener("click", openView);
@@ -28,6 +28,10 @@ function addCard(element) {
   photoContainer.prepend(element);
 }
 
+function deleteCard(e) {
+  e.target.closest(".element").remove();
+}
+
 function openEditPopupProfile() {
   popupName.value = profileName.textContent;
   popupStatus.value = profileStatus.textContent;
@@ -35,10 +39,12 @@ function openEditPopupProfile() {
 }
 
 function openPopup(popup) {
+  setFormListener(popup);
   togglePopup(popup);
 }
 
 function closePopup(popup) {
+  removeFormListener(popup);
   togglePopup(popup);
 }
 
@@ -59,6 +65,7 @@ function togglePopup(element) {
 }
 
 function saveChangesProfileEvent(e) {
+  console.log(e);
   saveChangesProfile();
   e.preventDefault();
 }
@@ -81,9 +88,6 @@ function toggleDarkLike(e) {
   e.target.classList.toggle("element__like_dark");
 }
 
-function deletePlace(e) {
-  e.target.closest(".element").remove();
-}
 
 function openView(e) {
   viewPhoto.src = e.target.src;
@@ -99,7 +103,29 @@ function closeView() {
   closePopup(popupView);
 }
 
+function setCloseEvent() {
+  document.addEventListener('keydown', closeAnyPopupByEsc);
+  popups = Array.from(document.querySelectorAll('.popup'));
+  popups.forEach((popup) => {
+    popup.addEventListener('click', closeAnyPopup);
+  });
+}
+
+function closeAnyPopupByEsc(e) {
+  if (e.key === "Escape") {
+    let openPopups = Array.from(document.querySelectorAll('.popup_opened'));
+    openPopups.forEach((popup) => {
+      closePopup(popup);
+    })
+  }
+}
+
+function closeAnyPopup(e) {
+  closePopup(e.target);
+}
+
 initiateCards();
+setCloseEvent();
 
 // events
 editButtonProfile.addEventListener("click", openEditPopupProfile);
@@ -110,7 +136,9 @@ addButtonPhoto.addEventListener("click", openAddPopup);
 closeButtonPhoto.addEventListener("click", closeAddPopup);
 popupFormAddPhoto.addEventListener("submit", addNewPlace);
 
-closeButtonView.addEventListener('click', closeView)
+closeButtonView.addEventListener('click', closeView);
+
+
 
 
 

@@ -34,9 +34,27 @@
   <div class="popup" id="edit-profile">
     <div class="popup__container">
       <h2 class="popup__title">Редактировать профиль</h2>
-      <form name="edit-profile" method="post" class="popup__form">
-        <input id="input-name" name="name-for-profile" type="text" class="popup__text-input">
-        <input id="input-status" name="status-for-profile" type="text" class="popup__text-input">
+      <form name="edit-profile" method="post" class="popup__form" novalidate>
+        <input
+          id="input-name"
+          name="name-for-profile"
+          type="text"
+          class="popup__type-input"
+          required
+          minlength=2
+          maxlength=30
+        >
+        <span class="popup__input-error input-name-error"></span>
+        <input
+          id="input-status"
+          name="status-for-profile"
+          type="text"
+          class="popup__type-input"
+          required
+          minlength=2
+          maxlength=200
+        >
+        <span class="popup__input-error input-status-error"></span>
         <button type="submit" class="popup__submit">Сохранить</button>
       </form>
       <button type="button" class="popup__close-button" id="close-edit-profile"></button>
@@ -45,11 +63,25 @@
   <div class="popup" id="add-photo">
     <div class="popup__container">
       <h2 class="popup__title">Новое место</h2>
-      <form name="add-photo" method="post" class="popup__form">
-        <input id="input-title-photo" name="title-for-photo" type="text" class="popup__text-input"
+      <form name="add-photo" method="post" class="popup__form" novalidate>
+        <input
+          id="input-title-photo"
+          name="title-for-photo"
+          type="text"
+          class="popup__type-input"
+          required
+          minlength=2
+          maxlength=30
           placeholder="Название">
-        <input id="input-url-photo" name="url-for-photo" type="text" class="popup__text-input"
+          <span class="popup__input-error input-status-error"></span>
+        <input
+          id="input-url-photo"
+          name="url-for-photo"
+          type="url"
+          class="popup__type-input"
+          required
           placeholder="Ссылка на картинку">
+          <span class="popup__input-error input-status-error"></span>
         <button type="submit" class="popup__submit">Создать</button>
       </form>
       <button type="button" class="popup__close-button" id="close-add-photo"></button>
@@ -73,6 +105,7 @@
     </li>
   </template>
   <script src="./scripts/constants.js"></script>
+  <script src="./scripts/validate.js"></script>
   <script src="./scripts/index.js"></script>
 </body>
 
