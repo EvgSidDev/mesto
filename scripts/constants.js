@@ -53,3 +53,13 @@ const popupView = document.querySelector("#view-photo");
 const closeButtonView = document.querySelector("#close-view-photo");
 const viewPhoto = document.querySelector(".view__photo");
 const viewTitle = document.querySelector(".view__title");
+const popupOpenedClass = 'popup_opened';
+
+const constElementValidation = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__submit',
+  inactiveButtonClass: 'popup__submit_inactive',
+  inputErrorClass: 'popup__type-input_error',
+  errorClass: 'popup_input-error_active'
+};

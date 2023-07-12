@@ -40,12 +40,12 @@ function openEditPopupProfile() {
 
 function openPopup(popup) {
   setFormListener(popup);
-  togglePopup(popup);
+  popup.classList.add(popupOpenedClass);
 }
 
 function closePopup(popup) {
   removeFormListener(popup);
-  togglePopup(popup);
+  popup.classList.remove(popupOpenedClass);
 }
 
 function closeEditPopup() {
@@ -60,12 +60,7 @@ function closeAddPopup() {
   closePopup(popupAddPhoto);
 }
 
-function togglePopup(element) {
-  element.classList.toggle("popup_opened");
-}
-
 function saveChangesProfileEvent(e) {
-  console.log(e);
   saveChangesProfile();
   e.preventDefault();
 }
@@ -113,7 +108,7 @@ function setCloseEvent() {
 
 function closeAnyPopupByEsc(e) {
   if (e.key === "Escape") {
-    let openPopups = Array.from(document.querySelectorAll('.popup_opened'));
+    let openPopups = Array.from(document.querySelectorAll(`.${popupOpenedClass}`));
     openPopups.forEach((popup) => {
       closePopup(popup);
     })
