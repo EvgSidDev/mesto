@@ -1,6 +1,6 @@
 function initiateCards() {
   initialCards.forEach((element) => {
-    photoElement = initiateCard(element.name, element.link);
+    const photoElement = initiateCard(element.name, element.link);
     addCard(photoElement);
   });
 }
@@ -41,10 +41,12 @@ function openEditPopupProfile() {
 function openPopup(popup) {
   setFormListener(popup);
   popup.classList.add(popupOpenedClass);
+  setCloseEvent(popup);
 }
 
 function closePopup(popup) {
-  removeFormListener(popup);
+  resetDataInput(popup);
+  removeCloseEvent(popup);
   popup.classList.remove(popupOpenedClass);
 }
 
@@ -72,7 +74,7 @@ function saveChangesProfile() {
 }
 
 function addNewPlace(e) {
-  photoElement = initiateCard(popupAddNamePlace.value, popupAddLinkPlace.value);
+  const photoElement = initiateCard(popupAddNamePlace.value, popupAddLinkPlace.value);
   addCard(photoElement);
   closeAddPopup(popupAddPhoto);
   popupFormAddPhoto.reset();
@@ -98,20 +100,20 @@ function closeView() {
   closePopup(popupView);
 }
 
-function setCloseEvent() {
+function setCloseEvent(popup) {
   document.addEventListener('keydown', closeAnyPopupByEsc);
-  popups = Array.from(document.querySelectorAll('.popup'));
-  popups.forEach((popup) => {
-    popup.addEventListener('click', closeAnyPopup);
-  });
+  popup.addEventListener('click', closeAnyPopup);
+}
+
+function removeCloseEvent(popup) {
+  document.removeEventListener('keydown', closeAnyPopupByEsc);
+  popup.removeEventListener('click', closeAnyPopup);
 }
 
 function closeAnyPopupByEsc(e) {
   if (e.key === "Escape") {
-    let openPopups = Array.from(document.querySelectorAll(`.${popupOpenedClass}`));
-    openPopups.forEach((popup) => {
-      closePopup(popup);
-    })
+    const openedPopup = document.querySelector(`.${popupOpenedClass}`);
+    closePopup(openedPopup);
   }
 }
 
@@ -119,8 +121,14 @@ function closeAnyPopup(e) {
   closePopup(e.target);
 }
 
+function resetDataInput(popup) {
+  const forms = Array.from(popup.querySelectorAll(constElementValidation.formSelector));
+  forms.forEach((form) => {
+    form.reset();
+  });
+}
+
 initiateCards();
-setCloseEvent();
 
 // events
 editButtonProfile.addEventListener("click", openEditPopupProfile);

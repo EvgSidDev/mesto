@@ -53,7 +53,10 @@ const popupView = document.querySelector("#view-photo");
 const closeButtonView = document.querySelector("#close-view-photo");
 const viewPhoto = document.querySelector(".view__photo");
 const viewTitle = document.querySelector(".view__title");
+
+// popups
 const popupOpenedClass = 'popup_opened';
+const inputPopupClass = '.popup__type-input';
 
 const constElementValidation = {
   formSelector: '.popup__form',
