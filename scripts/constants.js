@@ -60,7 +60,7 @@ const inputPopupClass = '.popup__type-input';
 
 const constElementValidation = {
   formSelector: '.popup__form',
-  inputSelector: '.popup__input',
+  inputPopupClass: '.popup__type-input',
   submitButtonSelector: '.popup__submit',
   inactiveButtonClass: 'popup__submit_inactive',
   inputErrorClass: 'popup__type-input_error',

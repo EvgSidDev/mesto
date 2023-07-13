@@ -1,46 +1,34 @@
-function showError(input, errorMessage) {
-  input.classList.add(constElementValidation.inputErrorClass);
+function showError(input, errorMessage, inputErrorClass, errorClass) {
+  input.classList.add(inputErrorClass);
   const spanError = input.nextElementSibling;
-  spanError.classList.add(constElementValidation.errorClass);
+  spanError.classList.add(errorClass);
   spanError.textContent = errorMessage;
 };
 
-function hideError(input) {
-  input.classList.remove(constElementValidation.inputErrorClass);
+function hideError(input, inputErrorClass, errorClass) {
+  input.classList.remove(inputErrorClass);
   const spanError = input.nextElementSibling;
   spanError.textContent = '';
-  spanError.classList.remove(constElementValidation.errorClass);
+  spanError.classList.remove(errorClass);
 };
 
-function checkInputValidity(e) {
+function checkInputValidity(e, inputErrorClass, errorClass) {
   const inputElement = e.target;
   if (!inputElement.validity.valid) {
-    showError(inputElement, inputElement.validationMessage);
+    showError(inputElement, inputElement.validationMessage, inputErrorClass, errorClass);
   } else {
-    hideError(inputElement);
+    hideError(inputElement, inputErrorClass, errorClass);
   }
 }
 
-function setFormListener(element) {
-  const forms = Array.from(element.querySelectorAll(constElementValidation.formSelector));
-  forms.forEach((form) => {
-    const buttonElement = form.querySelector(constElementValidation.submitButtonSelector);
-    const inputs = Array.from(form.querySelectorAll(inputPopupClass));
-    toggleButtonState(inputs, buttonElement);
-    inputs.forEach((input) => {
-      input.addEventListener('input', function(e) {
-        checkInputValidity(e);
-       toggleButtonState(inputs, buttonElement);
-      });
-    });
-  });
-}
-
-function toggleButtonState(inputList, buttonElement) {
+function toggleButtonState(inputList, buttonElement, buttonClass) {
   if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add(constElementValidation.inactiveButtonClass);
+    console.log(buttonClass);
+    buttonElement.classList.add(buttonClass);
+    buttonElement.setAttribute('disabled', "true");
   } else {
-    buttonElement.classList.remove(constElementValidation.inactiveButtonClass);
+    buttonElement.classList.remove(buttonClass);
+    buttonElement.removeAttribute('disabled');
   }
 };
 
@@ -49,3 +37,18 @@ const hasInvalidInput = (inputList) => {
     return !inputElement.validity.valid;
   });
 };
+
+function enableValidation(structValidation) {
+  const forms = Array.from(document.querySelectorAll(structValidation.formSelector));
+  forms.forEach((form) => {
+    const buttonElement = form.querySelector(structValidation.submitButtonSelector);
+    const inputs = Array.from(form.querySelectorAll(structValidation.inputPopupClass));
+    toggleButtonState(inputs, buttonElement, structValidation.inactiveButtonClass);
+    inputs.forEach((input) => {
+      input.addEventListener('input', function(e) {
+        checkInputValidity(e, structValidation.inputErrorClass, structValidation.errorClass);
+        toggleButtonState(inputs, buttonElement, structValidation.inactiveButtonClass);
+      });
+    });
+  });
+}

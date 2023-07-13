@@ -39,7 +39,7 @@ function openEditPopupProfile() {
 }
 
 function openPopup(popup) {
-  setFormListener(popup);
+  // setFormListener(popup);
   popup.classList.add(popupOpenedClass);
   setCloseEvent(popup);
 }
@@ -129,6 +129,7 @@ function resetDataInput(popup) {
 }
 
 initiateCards();
+enableValidation(constElementValidation)
 
 // events
 editButtonProfile.addEventListener("click", openEditPopupProfile);
