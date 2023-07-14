@@ -77,7 +77,6 @@ function addNewPlace(e) {
   const photoElement = initiateCard(popupAddNamePlace.value, popupAddLinkPlace.value);
   addCard(photoElement);
   closeAddPopup(popupAddPhoto);
-  popupFormAddPhoto.reset();
   e.preventDefault();
 }
 
