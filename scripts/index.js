@@ -39,13 +39,11 @@ function openEditPopupProfile() {
 }
 
 function openPopup(popup) {
-  // setFormListener(popup);
   popup.classList.add(popupOpenedClass);
   setCloseEvent(popup);
 }
 
 function closePopup(popup) {
-  resetDataInput(popup);
   removeCloseEvent(popup);
   popup.classList.remove(popupOpenedClass);
 }
@@ -55,6 +53,8 @@ function closeEditPopup() {
 }
 
 function openAddPopup() {
+  const form = popupAddPhoto.querySelector(constElementValidation.formSelector);
+  resetDataInput(form);
   openPopup(popupAddPhoto);
 }
 
@@ -84,7 +84,6 @@ function addNewPlace(e) {
 function toggleDarkLike(e) {
   e.target.classList.toggle("element__like_dark");
 }
-
 
 function openView(e) {
   viewPhoto.src = e.target.src;
@@ -121,11 +120,8 @@ function closeAnyPopup(e) {
   closePopup(e.target);
 }
 
-function resetDataInput(popup) {
-  const forms = Array.from(popup.querySelectorAll(constElementValidation.formSelector));
-  forms.forEach((form) => {
-    form.reset();
-  });
+function resetDataInput(form) {
+  form.reset();
 }
 
 initiateCards();
