@@ -1,4 +1,4 @@
-const initialCards = [
+export const initialCards = [
   {
     name: "Архыз",
     link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
@@ -25,40 +25,40 @@ const initialCards = [
   },
 ];
 
-const classOpacityLight = "popup_opacity_light";
-const classOpacityDark = "popup_opacity_dark";
+export const classOpacityLight = "popup_opacity_light";
+export const classOpacityDark = "popup_opacity_dark";
 
 //profile
-const popupEdit = document.querySelector("#edit-profile");
-const popupFormEditProfile = document.querySelector("form[name=edit-profile]");
-const editButtonProfile = document.querySelector(".profile__edit-button");
-const closeButtonProfile = document.querySelector("#close-edit-profile");
-const profileName = document.querySelector(".profile__name");
-const profileStatus = document.querySelector(".profile__status");
-const popupName = document.querySelector("#input-name");
-const popupStatus = document.querySelector("#input-status");
+export const popupEdit = document.querySelector("#edit-profile");
+export const popupFormEditProfile = document.querySelector("form[name=edit-profile]");
+export const editButtonProfile = document.querySelector(".profile__edit-button");
+export const closeButtonProfile = document.querySelector("#close-edit-profile");
+export const profileName = document.querySelector(".profile__name");
+export const profileStatus = document.querySelector(".profile__status");
+export const popupName = document.querySelector("#input-name");
+export const popupStatus = document.querySelector("#input-status");
 
 //photo
-const popupAddPhoto = document.querySelector("#add-photo");
-const popupFormAddPhoto = document.querySelector("form[name=add-photo]");
-const addButtonPhoto = document.querySelector(".profile__add-button");
-const closeButtonPhoto = document.querySelector("#close-add-photo");
-const popupAddNamePlace = document.querySelector("input[name=title-for-photo]");
-const popupAddLinkPlace = document.querySelector("input[name=url-for-photo]");
-const photoContainer = document.querySelector(".elements__photos");
+export const popupAddPhoto = document.querySelector("#add-photo");
+export const popupFormAddPhoto = document.querySelector("form[name=add-photo]");
+export const addButtonPhoto = document.querySelector(".profile__add-button");
+export const closeButtonPhoto = document.querySelector("#close-add-photo");
+export const popupAddNamePlace = document.querySelector("input[name=title-for-photo]");
+export const popupAddLinkPlace = document.querySelector("input[name=url-for-photo]");
+export const photoContainer = document.querySelector(".elements__photos");
 
 
 // view
-const popupView = document.querySelector("#view-photo");
-const closeButtonView = document.querySelector("#close-view-photo");
-const viewPhoto = document.querySelector(".view__photo");
-const viewTitle = document.querySelector(".view__title");
+export const popupView = document.querySelector("#view-photo");
+export const closeButtonView = document.querySelector("#close-view-photo");
+export const viewPhoto = document.querySelector(".view__photo");
+export const viewTitle = document.querySelector(".view__title");
 
 // popups
-const popupOpenedClass = 'popup_opened';
-const inputPopupClass = '.popup__type-input';
+export const popupOpenedClass = 'popup_opened';
+export const inputPopupClass = '.popup__type-input';
 
-const constElementValidation = {
+export const constElementValidation = {
   formSelector: '.popup__form',
   inputPopupClass: '.popup__type-input',
   submitButtonSelector: '.popup__submit',
@@ -66,3 +66,7 @@ const constElementValidation = {
   inputErrorClass: 'popup__type-input_error',
   errorClass: 'popup_input-error_active'
 };
+
+export const defaultCardTemplate = document.querySelector("#template-element").content;
+
+export * as constants from './constants.js';

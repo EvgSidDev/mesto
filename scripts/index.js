@@ -1,35 +1,49 @@
+import Card from "./Card.js";
+import FormValidation from "./FormValidation.js";
+import {
+  initialCards,
+  defaultCardTemplate,
+  photoContainer,
+  constElementValidation,
+  editButtonProfile,
+  closeButtonProfile,
+  popupFormEditProfile,
+  addButtonPhoto,
+  closeButtonPhoto,
+  popupFormAddPhoto,
+  closeButtonView,
+  viewPhoto,
+  viewTitle,
+  popupView,
+  popupOpenedClass,
+  popupName,
+  profileName,
+  popupStatus,
+  profileStatus,
+  popupEdit,
+  popupAddPhoto,
+  popupAddNamePlace,
+  popupAddLinkPlace
+} from "./constants.js";
 function initiateCards() {
   initialCards.forEach((element) => {
-    const photoElement = initiateCard(element.name, element.link);
-    addCard(photoElement);
+    initiateCard(element);
   });
 }
 
-function initiateCard(name, link) {
-  const photoTemplate = document.querySelector("#template-element").content;
-  const photoElement = photoTemplate.querySelector(".element").cloneNode(true);
-  photoElement.querySelector(".element__title").textContent = name;
-  photoElement.querySelector(".element__image").src = link;
-  photoElement.querySelector(".element__image").alt = name;
+function initiateCard(data) {
+  const card = new Card(data.name, data.link, defaultCardTemplate);
+  const photoElement = card.generateCard();
+  setGeneralEvents(photoElement);
+  addCard(photoElement);
+}
 
-  const likeElement = photoElement.querySelector(".element__like");
-  likeElement.addEventListener("click", toggleDarkLike);
-
-  const deleteElement = photoElement.querySelector(".element__delete");
-  deleteElement.addEventListener("click", deleteCard);
-
-  const imageElement = photoElement.querySelector(".element__image");
-  imageElement.addEventListener("click", openView);
-
-  return photoElement;
+function setGeneralEvents(element) {
+  element.addEventListener("click", openView);
 }
 
 function addCard(element) {
   photoContainer.prepend(element);
-}
-
-function deleteCard(e) {
-  e.target.closest(".element").remove();
 }
 
 function openEditPopupProfile() {
@@ -38,10 +52,10 @@ function openEditPopupProfile() {
   openPopup(popupEdit);
 }
 
-function openPopup(popup) {
+const openPopup = (popup) => {
   popup.classList.add(popupOpenedClass);
   setCloseEvent(popup);
-}
+};
 
 function closePopup(popup) {
   removeCloseEvent(popup);
@@ -74,20 +88,22 @@ function saveChangesProfile() {
 }
 
 function addNewPlace(e) {
-  const photoElement = initiateCard(popupAddNamePlace.value, popupAddLinkPlace.value);
-  addCard(photoElement);
+  initiateCard({
+    name: popupAddNamePlace.value,
+    link: popupAddLinkPlace.value,
+  });
   closeAddPopup(popupAddPhoto);
   e.preventDefault();
 }
 
-function toggleDarkLike(e) {
-  e.target.classList.toggle("element__like_dark");
-}
-
 function openView(e) {
-  viewPhoto.src = e.target.src;
+  viewPhoto.src = e.target
+    .closest(".element")
+    .querySelector(".element__image").src;
   viewPhoto.alt = e.target.alt;
-  viewTitle.textContent = e.target.closest(".element").querySelector(".element__title").textContent;
+  viewTitle.textContent = e.target
+    .closest(".element")
+    .querySelector(".element__title").textContent;
   openPopup(popupView);
 }
 
@@ -99,13 +115,13 @@ function closeView() {
 }
 
 function setCloseEvent(popup) {
-  document.addEventListener('keydown', closeAnyPopupByEsc);
-  popup.addEventListener('click', closeAnyPopup);
+  document.addEventListener("keydown", closeAnyPopupByEsc);
+  popup.addEventListener("click", closeAnyPopup);
 }
 
 function removeCloseEvent(popup) {
-  document.removeEventListener('keydown', closeAnyPopupByEsc);
-  popup.removeEventListener('click', closeAnyPopup);
+  document.removeEventListener("keydown", closeAnyPopupByEsc);
+  popup.removeEventListener("click", closeAnyPopup);
 }
 
 function closeAnyPopupByEsc(e) {
@@ -124,7 +140,13 @@ function resetDataInput(form) {
 }
 
 initiateCards();
-enableValidation(constElementValidation)
+const forms = Array.from(
+  document.querySelectorAll(constElementValidation.formSelector)
+);
+forms.forEach((form) => {
+  const formValidation = new FormValidation(constElementValidation, form);
+  formValidation.enableValidation();
+});
 
 // events
 editButtonProfile.addEventListener("click", openEditPopupProfile);
@@ -135,9 +157,4 @@ addButtonPhoto.addEventListener("click", openAddPopup);
 closeButtonPhoto.addEventListener("click", closeAddPopup);
 popupFormAddPhoto.addEventListener("submit", addNewPlace);
 
-closeButtonView.addEventListener('click', closeView);
-
-
-
-
-
+closeButtonView.addEventListener("click", closeView);
