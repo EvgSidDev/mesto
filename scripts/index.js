@@ -23,23 +23,20 @@ import {
   popupEdit,
   popupAddPhoto,
   popupAddNamePlace,
-  popupAddLinkPlace
+  popupAddLinkPlace,
+  closePopup
 } from "./constants.js";
 function initiateCards() {
   initialCards.forEach((element) => {
-    initiateCard(element);
+    const photoElement = initiateCard(element);
+    addCard(photoElement);
   });
 }
 
 function initiateCard(data) {
   const card = new Card(data.name, data.link, defaultCardTemplate);
   const photoElement = card.generateCard();
-  setGeneralEvents(photoElement);
-  addCard(photoElement);
-}
-
-function setGeneralEvents(element) {
-  element.addEventListener("click", openView);
+  return photoElement;
 }
 
 function addCard(element) {
@@ -57,11 +54,6 @@ const openPopup = (popup) => {
   setCloseEvent(popup);
 };
 
-function closePopup(popup) {
-  removeCloseEvent(popup);
-  popup.classList.remove(popupOpenedClass);
-}
-
 function closeEditPopup() {
   closePopup(popupEdit);
 }
@@ -69,6 +61,9 @@ function closeEditPopup() {
 function openAddPopup() {
   const form = popupAddPhoto.querySelector(constElementValidation.formSelector);
   resetDataInput(form);
+  const buttonElement = form.querySelector(constElementValidation.submitButtonSelector)
+  buttonElement.setAttribute("disabled", "true");
+  buttonElement.classList.add(constElementValidation.inactiveButtonClass);
   openPopup(popupAddPhoto);
 }
 
@@ -88,23 +83,13 @@ function saveChangesProfile() {
 }
 
 function addNewPlace(e) {
-  initiateCard({
+  const photoElement = initiateCard({
     name: popupAddNamePlace.value,
     link: popupAddLinkPlace.value,
   });
+  addCard(photoElement);
   closeAddPopup(popupAddPhoto);
   e.preventDefault();
-}
-
-function openView(e) {
-  viewPhoto.src = e.target
-    .closest(".element")
-    .querySelector(".element__image").src;
-  viewPhoto.alt = e.target.alt;
-  viewTitle.textContent = e.target
-    .closest(".element")
-    .querySelector(".element__title").textContent;
-  openPopup(popupView);
 }
 
 function closeView() {
@@ -117,11 +102,6 @@ function closeView() {
 function setCloseEvent(popup) {
   document.addEventListener("keydown", closeAnyPopupByEsc);
   popup.addEventListener("click", closeAnyPopup);
-}
-
-function removeCloseEvent(popup) {
-  document.removeEventListener("keydown", closeAnyPopupByEsc);
-  popup.removeEventListener("click", closeAnyPopup);
 }
 
 function closeAnyPopupByEsc(e) {

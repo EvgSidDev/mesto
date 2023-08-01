@@ -69,4 +69,26 @@ export const constElementValidation = {
 
 export const defaultCardTemplate = document.querySelector("#template-element").content;
 
+export const closeAnyPopupByEsc = (e) => {
+  if (e.key === "Escape") {
+    document.removeEventListener("keydown", closeAnyPopupByEsc);
+    const openedPopup = document.querySelector(`.${popupOpenedClass}`);
+    closePopup(openedPopup);
+  }
+}
+
+export const closeAnyPopup = (e) => {
+  closePopup(e.target);
+}
+
+export const closePopup = (popup) => {
+  removeCloseEvent(popup);
+  popup.classList.remove(popupOpenedClass);
+}
+
+const removeCloseEvent = (popup) => {
+  document.removeEventListener("keydown", closeAnyPopupByEsc);
+  popup.removeEventListener("click", closeAnyPopup);
+}
+
 export * as constants from './constants.js';
