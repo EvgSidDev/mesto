@@ -15,7 +15,6 @@ import {
   viewPhoto,
   viewTitle,
   popupView,
-  popupOpenedClass,
   popupName,
   profileName,
   popupStatus,
@@ -24,7 +23,8 @@ import {
   popupAddPhoto,
   popupAddNamePlace,
   popupAddLinkPlace,
-  closePopup
+  closePopup,
+  openPopup
 } from "./constants.js";
 function initiateCards() {
   initialCards.forEach((element) => {
@@ -49,21 +49,16 @@ function openEditPopupProfile() {
   openPopup(popupEdit);
 }
 
-const openPopup = (popup) => {
-  popup.classList.add(popupOpenedClass);
-  setCloseEvent(popup);
-};
-
 function closeEditPopup() {
   closePopup(popupEdit);
 }
 
 function openAddPopup() {
+
   const form = popupAddPhoto.querySelector(constElementValidation.formSelector);
   resetDataInput(form);
-  const buttonElement = form.querySelector(constElementValidation.submitButtonSelector)
-  buttonElement.setAttribute("disabled", "true");
-  buttonElement.classList.add(constElementValidation.inactiveButtonClass);
+  const formValidation = new FormValidation(constElementValidation, form);
+  formValidation.setDisableMod();
   openPopup(popupAddPhoto);
 }
 
@@ -99,22 +94,6 @@ function closeView() {
   closePopup(popupView);
 }
 
-function setCloseEvent(popup) {
-  document.addEventListener("keydown", closeAnyPopupByEsc);
-  popup.addEventListener("click", closeAnyPopup);
-}
-
-function closeAnyPopupByEsc(e) {
-  if (e.key === "Escape") {
-    const openedPopup = document.querySelector(`.${popupOpenedClass}`);
-    closePopup(openedPopup);
-  }
-}
-
-function closeAnyPopup(e) {
-  closePopup(e.target);
-}
-
 function resetDataInput(form) {
   form.reset();
 }
@@ -138,3 +117,4 @@ closeButtonPhoto.addEventListener("click", closeAddPopup);
 popupFormAddPhoto.addEventListener("submit", addNewPlace);
 
 closeButtonView.addEventListener("click", closeView);
+

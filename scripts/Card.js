@@ -2,9 +2,7 @@ import {
   viewPhoto,
   viewTitle,
   popupView,
-  popupOpenedClass,
-  closeAnyPopupByEsc,
-  closeAnyPopup
+  openPopup,
 } from "./constants.js";
 
 class Card {
@@ -12,19 +10,15 @@ class Card {
     this._title = cardTitle;
     this._url = cardUrl;
     this._template = templateSelector;
-
-
   }
 
   generateCard() {
     this._element = this._getTemplate();
-
     this._elementLike = this._element.querySelector(".element__like");
     this._elementDelete = this._element.querySelector(".element__delete");
     this._elementImage = this._element.querySelector(".element__image");
     this._setValues();
     this._setEventListener();
-
     return this._element;
   }
 
@@ -67,9 +61,7 @@ class Card {
     viewPhoto.src = this._elementImage.src;
     viewPhoto.alt = this._elementImage.alt;
     viewTitle.textContent = this._elementImage.alt;
-    popupView.classList.add(popupOpenedClass);
-    document.addEventListener("keydown", closeAnyPopupByEsc);
-    popupView.addEventListener("click", closeAnyPopup);
+    openPopup(popupView)
   }
 }
 

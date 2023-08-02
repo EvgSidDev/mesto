@@ -7,24 +7,24 @@ class FormValidation {
     this._inputErrorClass = structValidation.inputErrorClass;
     this._errorClass = structValidation.errorClass;
     this._form = form;
-  }
-
-  enableValidation() {
     this._buttonElement = this._form.querySelector(
       this._submitButtonSelector
     );
+  }
+
+  enableValidation() {
     this._inputs = Array.from(
       this._form.querySelectorAll(this._inputPopupClass)
     );
-    this._toggleButtonState(
-      this._inputs,
-      this._buttonElement,
-      this._inactiveButtonClass
-    );
+    this._toggleButtonState();
 
     this._inputs.forEach((input) => {
       input.addEventListener("input", (e) => this._validate(e));
     });
+  }
+
+  setDisableMod() {
+    this._setDisableMod();
   }
 
   _validate(e) {
@@ -34,8 +34,7 @@ class FormValidation {
 
   _toggleButtonState() {
     if (this._hasInvalidInput(this._inputs)) {
-      this._buttonElement.classList.add(this._inactiveButtonClass);
-      this._buttonElement.setAttribute("disabled", "true");
+      this._setDisableMod(this._buttonElement, this._inactiveButtonClass)
     } else {
       this._buttonElement.classList.remove(this._inactiveButtonClass);
       this._buttonElement.removeAttribute("disabled");
@@ -73,6 +72,11 @@ class FormValidation {
       return !inputElement.validity.valid;
     });
   };
+
+  _setDisableMod = () => {
+    this._buttonElement.classList.add(this._inactiveButtonClass);
+    this._buttonElement.setAttribute("disabled", "true");
+  }
 }
 
 export default FormValidation;
