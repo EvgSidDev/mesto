@@ -59,7 +59,6 @@ export const popupOpenedClass = 'popup_opened';
 export const inputPopupClass = '.popup__type-input';
 
 export const constElementValidation = {
-  formSelector: '.popup__form',
   inputPopupClass: '.popup__type-input',
   submitButtonSelector: '.popup__submit',
   inactiveButtonClass: 'popup__submit_inactive',

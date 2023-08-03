@@ -42,8 +42,8 @@ class Card {
     this._elementDelete.addEventListener("click", (e) => {
       this._deleteCard(e);
     });
-    this._elementImage.addEventListener("click", (e) => {
-      this._openView(e);
+    this._elementImage.addEventListener("click", () => {
+      this._openView();
     });
   }
 
@@ -57,7 +57,7 @@ class Card {
     e.stopPropagation();
   }
 
-  _openView(e) {
+  _openView() {
     viewPhoto.src = this._elementImage.src;
     viewPhoto.alt = this._elementImage.alt;
     viewTitle.textContent = this._elementImage.alt;

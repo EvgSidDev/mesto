@@ -46,6 +46,7 @@ function addCard(element) {
 function openEditPopupProfile() {
   popupName.value = profileName.textContent;
   popupStatus.value = profileStatus.textContent;
+  formEditProfileValidation.setDisableMod();
   openPopup(popupEdit);
 }
 
@@ -54,11 +55,8 @@ function closeEditPopup() {
 }
 
 function openAddPopup() {
-
-  const form = popupAddPhoto.querySelector(constElementValidation.formSelector);
-  resetDataInput(form);
-  const formValidation = new FormValidation(constElementValidation, form);
-  formValidation.setDisableMod();
+  resetDataInput(popupFormAddPhoto);
+  formAddPhotoValidation.setDisableMod();
   openPopup(popupAddPhoto);
 }
 
@@ -99,13 +97,12 @@ function resetDataInput(form) {
 }
 
 initiateCards();
-const forms = Array.from(
-  document.querySelectorAll(constElementValidation.formSelector)
-);
-forms.forEach((form) => {
-  const formValidation = new FormValidation(constElementValidation, form);
-  formValidation.enableValidation();
-});
+
+const formAddPhotoValidation = new FormValidation(constElementValidation, popupFormAddPhoto);
+formAddPhotoValidation.enableValidation();
+
+const formEditProfileValidation = new FormValidation(constElementValidation, popupFormEditProfile);
+formEditProfileValidation.enableValidation();
 
 // events
 editButtonProfile.addEventListener("click", openEditPopupProfile);

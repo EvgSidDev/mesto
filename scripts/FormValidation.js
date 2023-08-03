@@ -25,6 +25,9 @@ class FormValidation {
 
   setDisableMod() {
     this._setDisableMod();
+    this._inputs.forEach((input) => {
+      this._hideError(input);
+    })
   }
 
   _validate(e) {
