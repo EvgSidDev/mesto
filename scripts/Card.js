@@ -1,15 +1,9 @@
-import {
-  viewPhoto,
-  viewTitle,
-  popupView,
-  openPopup,
-} from "./constants.js";
-
 class Card {
-  constructor(cardTitle, cardUrl, templateSelector) {
-    this._title = cardTitle;
-    this._url = cardUrl;
+  constructor({name, link}, templateSelector, openView) {
+    this._title = name;
+    this._url = link;
     this._template = templateSelector;
+    this._openView = openView;
   }
 
   generateCard() {
@@ -43,7 +37,7 @@ class Card {
       this._deleteCard(e);
     });
     this._elementImage.addEventListener("click", () => {
-      this._openView();
+      this._openView(this._elementImage);
     });
   }
 
@@ -57,12 +51,6 @@ class Card {
     e.stopPropagation();
   }
 
-  _openView() {
-    viewPhoto.src = this._elementImage.src;
-    viewPhoto.alt = this._elementImage.alt;
-    viewTitle.textContent = this._elementImage.alt;
-    openPopup(popupView)
-  }
 }
 
 export default Card;

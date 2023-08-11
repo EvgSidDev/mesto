@@ -30,6 +30,10 @@ class FormValidation {
     })
   }
 
+  resetForm(){
+    this._form.reset();
+  }
+
   _validate(e) {
     this._checkInputValidity(e);
     this._toggleButtonState();

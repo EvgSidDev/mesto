@@ -1,5 +1,9 @@
 import Card from "./Card.js";
 import FormValidation from "./FormValidation.js";
+import PopupWithForm from "./PopupWithForm.js";
+import PopupWithImage from "./PopupWithImage.js";
+import Section from "./Section.js";
+import UserInfo from "./UserInfo.js";
 import {
   initialCards,
   defaultCardTemplate,
@@ -10,108 +14,102 @@ import {
   popupFormEditProfile,
   addButtonPhoto,
   closeButtonPhoto,
-  popupFormAddPhoto,
   closeButtonView,
+  popupFormAddPhoto,
   viewPhoto,
   viewTitle,
   popupView,
-  popupName,
   profileName,
-  popupStatus,
   profileStatus,
   popupEdit,
   popupAddPhoto,
-  popupAddNamePlace,
-  popupAddLinkPlace,
-  closePopup,
-  openPopup
+  popupOpenedClass,
 } from "./constants.js";
-function initiateCards() {
-  initialCards.forEach((element) => {
-    const photoElement = initiateCard(element);
-    addCard(photoElement);
-  });
-}
 
-function initiateCard(data) {
-  const card = new Card(data.name, data.link, defaultCardTemplate);
-  const photoElement = card.generateCard();
-  return photoElement;
-}
+const userInfo = new UserInfo({
+  nameElement: profileName,
+  statusElement: profileStatus,
+});
 
-function addCard(element) {
-  photoContainer.prepend(element);
-}
-
-function openEditPopupProfile() {
-  popupName.value = profileName.textContent;
-  popupStatus.value = profileStatus.textContent;
-  formEditProfileValidation.setDisableMod();
-  openPopup(popupEdit);
-}
-
-function closeEditPopup() {
-  closePopup(popupEdit);
-}
-
-function openAddPopup() {
-  resetDataInput(popupFormAddPhoto);
-  formAddPhotoValidation.setDisableMod();
-  openPopup(popupAddPhoto);
-}
-
-function closeAddPopup() {
-  closePopup(popupAddPhoto);
-}
-
-function saveChangesProfileEvent(e) {
-  saveChangesProfile();
-  e.preventDefault();
-}
-
-function saveChangesProfile() {
-  profileName.textContent = popupName.value;
-  profileStatus.textContent = popupStatus.value;
-  closePopup(popupEdit);
-}
-
-function addNewPlace(e) {
-  const photoElement = initiateCard({
-    name: popupAddNamePlace.value,
-    link: popupAddLinkPlace.value,
-  });
-  addCard(photoElement);
-  closeAddPopup(popupAddPhoto);
-  e.preventDefault();
-}
-
-function closeView() {
-  viewPhoto.src = "";
-  viewPhoto.alt = "";
-  viewTitle.textContent = "";
-  closePopup(popupView);
-}
-
-function resetDataInput(form) {
-  form.reset();
-}
-
-initiateCards();
-
-const formAddPhotoValidation = new FormValidation(constElementValidation, popupFormAddPhoto);
+const formAddPhotoValidation = new FormValidation(
+  constElementValidation,
+  popupFormAddPhoto
+);
 formAddPhotoValidation.enableValidation();
 
-const formEditProfileValidation = new FormValidation(constElementValidation, popupFormEditProfile);
+const popupAddNewPlace = new PopupWithForm(
+  popupAddPhoto,
+  popupOpenedClass,
+  (e) => {
+    const data = popupAddNewPlace._getInputValues();
+    initialCards.push({
+      name: data.newPhotoName,
+      link: data.newPhotoLink,
+    });
+    section.setItems(initialCards);
+    section.renderElements();
+    popupAddNewPlace.close(e);
+    e.preventDefault();
+  },
+  () => {
+    return;
+  },
+  formAddPhotoValidation
+);
+popupAddNewPlace.setEventListeners(closeButtonPhoto);
+addButtonPhoto.addEventListener(
+  "click",
+  popupAddNewPlace.open.bind(popupAddNewPlace)
+);
+
+const formEditProfileValidation = new FormValidation(
+  constElementValidation,
+  popupFormEditProfile
+);
 formEditProfileValidation.enableValidation();
 
-// events
-editButtonProfile.addEventListener("click", openEditPopupProfile);
-closeButtonProfile.addEventListener("click", closeEditPopup);
-popupFormEditProfile.addEventListener("submit", saveChangesProfileEvent);
+const popupEditProfile = new PopupWithForm(
+  popupEdit,
+  popupOpenedClass,
+  (e) => {
+    const data = popupEditProfile._getInputValues();
+    userInfo.setUserInfo({
+      nameUser: data.nameUser,
+      statusUser: data.statusUser,
+    });
+    popupEditProfile.close(e);
+    e.preventDefault();
+  },
+  () => {
+    return userInfo.getUserInfo();
+  },
+  formEditProfileValidation
+);
+popupEditProfile.setEventListeners(closeButtonProfile);
+editButtonProfile.addEventListener(
+  "click",
+  popupEditProfile.open.bind(popupEditProfile)
+);
 
-addButtonPhoto.addEventListener("click", openAddPopup);
-closeButtonPhoto.addEventListener("click", closeAddPopup);
-popupFormAddPhoto.addEventListener("submit", addNewPlace);
+const section = new Section(
+  {
+    items: initialCards,
+    render: (item) => {
+      const card = new Card(item, defaultCardTemplate, (element) => {
+        viewPopup.open(element);
+      });
+      const photoElement = card.generateCard();
+      section.addItem(photoElement);
+    },
+  },
+  photoContainer
+);
+section.renderElements();
 
-closeButtonView.addEventListener("click", closeView);
-
+const viewPopup = new PopupWithImage(
+  popupView,
+  popupOpenedClass,
+  viewPhoto,
+  viewTitle
+);
+viewPopup.setEventListeners(closeButtonView);
