@@ -1,3 +1,4 @@
+// import './pages/index.css';
 export const initialCards = [
   {
     name: "Архыз",
@@ -25,9 +26,6 @@ export const initialCards = [
   },
 ];
 
-export const classOpacityLight = "popup_opacity_light";
-export const classOpacityDark = "popup_opacity_dark";
-
 //profile
 export const popupEdit = document.querySelector("#edit-profile");
 export const popupFormEditProfile = document.querySelector("form[name=edit-profile]");
@@ -35,16 +33,12 @@ export const editButtonProfile = document.querySelector(".profile__edit-button")
 export const closeButtonProfile = document.querySelector("#close-edit-profile");
 export const profileName = document.querySelector(".profile__name");
 export const profileStatus = document.querySelector(".profile__status");
-export const popupName = document.querySelector("#input-name");
-export const popupStatus = document.querySelector("#input-status");
 
 //photo
 export const popupAddPhoto = document.querySelector("#add-photo");
 export const popupFormAddPhoto = document.querySelector("form[name=add-photo]");
 export const addButtonPhoto = document.querySelector(".profile__add-button");
 export const closeButtonPhoto = document.querySelector("#close-add-photo");
-export const popupAddNamePlace = document.querySelector("input[name=title-for-photo]");
-export const popupAddLinkPlace = document.querySelector("input[name=url-for-photo]");
 export const photoContainer = document.querySelector(".elements__photos");
 
 
@@ -56,7 +50,6 @@ export const viewTitle = document.querySelector(".view__title");
 
 // popups
 export const popupOpenedClass = 'popup_opened';
-export const inputPopupClass = '.popup__type-input';
 
 export const constElementValidation = {
   inputPopupClass: '.popup__type-input',

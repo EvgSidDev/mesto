@@ -52,7 +52,7 @@ const popupAddNewPlace = new PopupWithForm(
     e.preventDefault();
   },
   () => {
-    return;
+    return {newPhotoName: '', newPhotoLink: ''};
   },
   formAddPhotoValidation
 );
