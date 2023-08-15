@@ -8,5 +8,5 @@
 
 Структура проекта построена на основе методологии Nested BEM.
 
-* [Ссылка на GitPages](https://evgsiddev.github.io/mesto/index.html)
+* [Ссылка на GitPages](https://evgsiddev.github.io/mesto/src/index.html)
 
