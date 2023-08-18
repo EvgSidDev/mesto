@@ -102,7 +102,7 @@ function addAndRenderNewCard(data) {
     }
   );
   const photoElement = card.generateCard();
-  section.addItem(photoElement);
+  cardsSection.addItem(photoElement);
 }
 
 editButtonProfile.addEventListener("click", () => {
