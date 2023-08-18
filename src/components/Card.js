@@ -1,9 +1,9 @@
 class Card {
-  constructor({name, link}, templateSelector, openView) {
+  constructor({name, link}, templateSelector, handleImageClick) {
     this._title = name;
     this._url = link;
     this._template = templateSelector;
-    this._openView = openView;
+    this._handleImageClick = handleImageClick;
   }
 
   generateCard() {
@@ -37,7 +37,7 @@ class Card {
       this._deleteCard(e);
     });
     this._elementImage.addEventListener("click", () => {
-      this._openView(this._elementImage);
+      this._handleImageClick({src: this._url, title: this._title});
     });
   }
 
@@ -47,7 +47,7 @@ class Card {
   }
 
   _deleteCard(e) {
-    this._elementDelete.closest(".element").remove();
+    this._element.remove();
     e.stopPropagation();
   }
 

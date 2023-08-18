@@ -51,7 +51,7 @@ export const viewTitle = document.querySelector(".view__title");
 // popups
 export const popupOpenedClass = 'popup_opened';
 
-export const constElementValidation = {
+export const validationConfig = {
   inputPopupClass: '.popup__type-input',
   submitButtonSelector: '.popup__submit',
   inactiveButtonClass: 'popup__submit_inactive',
@@ -61,4 +61,4 @@ export const constElementValidation = {
 
 export const defaultCardTemplate = document.querySelector("#template-element").content;
 
-export * as constants from './constants.js';
+export * as constants from './utils.js';
