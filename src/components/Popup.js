@@ -28,13 +28,11 @@ export class Popup {
     if (e.currentTarget != e.target) {
         return;
       };
-      console.log(this);
     this.close();
     e.stopPropagation();
   }
 
   _handleEscClose(e) {
-    console.log(this);
     if (e.key === "Escape") {
       this.close();
     }
