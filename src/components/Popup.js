@@ -6,7 +6,6 @@ export class Popup {
     this._handleOverlayClick = this._handleOverlayClick.bind(this);
     this._handleButtonClick = this.close.bind(this);
     this._handleEscClose = this._handleEscClose.bind(this);
-    this.setEventListeners();
   }
 
   open() {

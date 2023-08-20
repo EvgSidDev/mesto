@@ -1,4 +1,3 @@
-// import './pages/index.css';
 export const initialCards = [
   {
     name: "Архыз",
@@ -50,6 +49,7 @@ export const viewTitle = document.querySelector(".view__title");
 
 // popups
 export const popupOpenedClass = 'popup_opened';
+export const popupFormClass = '.popup__form';
 
 export const validationConfig = {
   inputPopupClass: '.popup__type-input',

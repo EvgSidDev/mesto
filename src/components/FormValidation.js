@@ -29,10 +29,6 @@ class FormValidation {
     })
   }
 
-  getForm(){
-    return this._form;
-  }
-
   getInputs(){
     return this._inputs;
   }

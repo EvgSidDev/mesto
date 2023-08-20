@@ -25,7 +25,8 @@ import {
   popupEdit,
   popupAddPhoto,
   popupOpenedClass,
-} from "../utils.js";
+  popupFormClass
+} from "../utils/utils.js";
 
 const userInfo = new UserInfo({
   nameElement: profileName,
@@ -41,16 +42,17 @@ formAddPhotoValidation.enableValidation();
 const popupAddNewPlace = new PopupWithForm(
   popupAddPhoto,
   popupOpenedClass,
-  (e) => {
-    const data = popupAddNewPlace.getInputValues();
-    addAndRenderNewCard({
+  (data) => {
+    const photoElement = createNewCard({
       name: data.newPhotoName,
       link: data.newPhotoLink,
     });
-    popupAddNewPlace.close(e);
+    cardsSection.addItem(photoElement);
+    popupAddNewPlace.close();
   },
-  formAddPhotoValidation,
-  closeButtonPhoto
+  closeButtonPhoto,
+  validationConfig.inputPopupClass,
+  popupFormClass
 );
 
 const formEditProfileValidation = new FormValidation(
@@ -62,23 +64,24 @@ formEditProfileValidation.enableValidation();
 const popupEditProfile = new PopupWithForm(
   popupEdit,
   popupOpenedClass,
-  (e) => {
-    const data = popupEditProfile.getInputValues();
+  (data) => {
     userInfo.setUserInfo({
       nameUser: data.nameUser,
       statusUser: data.statusUser,
     });
     popupEditProfile.close();
   },
-  formEditProfileValidation,
-  closeButtonProfile
+  closeButtonProfile,
+  validationConfig.inputPopupClass,
+  popupFormClass
 );
 
 const cardsSection = new Section(
   {
     items: initialCards,
     render: (item) => {
-      addAndRenderNewCard(item);
+      const photoElement = createNewCard(item);
+      cardsSection.addItem(photoElement);
     },
   },
   photoContainer
@@ -93,25 +96,26 @@ const viewPopup = new PopupWithImage(
   closeButtonView
 );
 
-function addAndRenderNewCard(data) {
-  const card = new Card(
-    data,
-    defaultCardTemplate,
-    (element) => {
-      viewPopup.open(element);
-    }
-  );
+function createNewCard(data) {
+  const card = new Card(data, defaultCardTemplate, (element) => {
+    viewPopup.open(element);
+  });
   const photoElement = card.generateCard();
-  cardsSection.addItem(photoElement);
+  return photoElement;
 }
 
 editButtonProfile.addEventListener("click", () => {
   popupEditProfile.setInputValues(userInfo.getUserInfo());
+  formEditProfileValidation.resetValidation();
   popupEditProfile.open();
 });
 
 addButtonPhoto.addEventListener("click", () => {
-  const formPopup = formAddPhotoValidation.getForm();
-  formPopup.reset();
+  popupFormAddPhoto.reset();
+  formAddPhotoValidation.resetValidation()
   popupAddNewPlace.open();
 });
+
+popupEditProfile.setEventListeners();
+popupAddNewPlace.setEventListeners();
+viewPopup.setEventListeners();
