@@ -1,9 +1,15 @@
 class Card {
-  constructor({name, link}, templateSelector, handleImageClick) {
+  constructor({name, link, likes, _id, owner}, templateSelector, handleImageClick, handleImageDelete, handleCardLike, likeClassDark) {
     this._title = name;
     this._url = link;
+    this._id = _id;
+    this._idOwner = owner._id;
     this._template = templateSelector;
     this._handleImageClick = handleImageClick;
+    this._handleImageDelete = handleImageDelete;
+    this.setLikes(likes);
+    this._handleCardLike = handleCardLike;
+    this._likeClassDark = likeClassDark;
   }
 
   generateCard() {
@@ -11,9 +17,49 @@ class Card {
     this._elementLike = this._element.querySelector(".element__like");
     this._elementDelete = this._element.querySelector(".element__delete");
     this._elementImage = this._element.querySelector(".element__image");
+    this._elementLikes = this._element.querySelector(".element__likes");
+    this.updateCountLikes();
     this._setValues();
     this._setEventListener();
     return this._element;
+  }
+
+  setLikes(likes) {
+    this._likes = likes;
+  }
+
+  updateCountLikes() {
+    this._elementLikes.textContent = this._likes.length;
+  }
+
+  setDarkLike () {
+    this._elementLike.classList.add(this._likeClassDark)
+  }
+
+  deleteDarkLike () {
+    this._elementLike.classList.remove(this._likeClassDark)
+  }
+
+  likeIsDark() {
+    return this._elementLike.classList.contains(this._likeClassDark);
+  }
+
+  getCardId() {
+    return this._id;
+  }
+
+  getOwnerId() {
+    return this._idOwner;
+  }
+
+  unsetHiddenDelete(classHidden){
+    this._elementDelete.classList.remove(classHidden);
+  }
+
+  containsMyLike(id) {
+    return this._likes.some((like) => {
+      return like._id === id;
+    });
   }
 
   _getTemplate() {
@@ -30,25 +76,15 @@ class Card {
   }
 
   _setEventListener() {
-    this._elementLike.addEventListener("click", (e) => {
-      this._toggleDarkLike(e);
+    this._elementLike.addEventListener("click", () => {
+      this._handleCardLike();
     });
-    this._elementDelete.addEventListener("click", (e) => {
-      this._deleteCard(e);
+    this._elementDelete.addEventListener("click", () => {
+      this._handleImageDelete();
     });
     this._elementImage.addEventListener("click", () => {
       this._handleImageClick({src: this._url, title: this._title});
     });
-  }
-
-  _toggleDarkLike(e) {
-    this._elementLike.classList.toggle("element__like_dark");
-    e.stopPropagation();
-  }
-
-  _deleteCard(e) {
-    this._element.remove();
-    e.stopPropagation();
   }
 
 }
