@@ -1,8 +1,8 @@
 export class Popup {
-  constructor(popup, openedClass, closeButton) {
+  constructor(popup, openedClass) {
     this._popup = popup;
     this._openedClass = openedClass;
-    this._closeButton = closeButton;
+    this._closeButton = this._popup.querySelector('.popup__close-button');
     this._handleOverlayClick = this._handleOverlayClick.bind(this);
     this._handleButtonClick = this.close.bind(this);
     this._handleEscClose = this._handleEscClose.bind(this);

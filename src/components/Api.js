@@ -9,6 +9,8 @@ export class Api {
     return fetch(`${this._url}/${this._cohortId}/users/me`, {
       headers: this._headers,
       method: "GET",
+    }).then((response) => {
+      return this._checkResponse(response);
     });
   }
 
@@ -16,6 +18,8 @@ export class Api {
     return fetch(`${this._url}/${this._cohortId}/cards`, {
       headers: this._headers,
       method: "GET",
+    }).then((response) => {
+      return this._checkResponse(response);
     });
   }
 
@@ -24,6 +28,8 @@ export class Api {
       headers: this._headers,
       method: "PATCH",
       body: JSON.stringify(data),
+    }).then((response) => {
+      return this._checkResponse(response);
     });
   }
 
@@ -32,27 +38,35 @@ export class Api {
       headers: this._headers,
       method: "POST",
       body: JSON.stringify(data),
+    }).then((response) => {
+      return this._checkResponse(response);
     });
   }
 
   deleteCard(id) {
     return fetch(`${this._url}/${this._cohortId}/cards/${id}`, {
       headers: this._headers,
-      method: "DELETE"
+      method: "DELETE",
+    }).then((response) => {
+      return this._checkResponse(response);
     });
   }
 
-  setLike(id){
+  setLike(id) {
     return fetch(`${this._url}/${this._cohortId}/cards/${id}/likes`, {
       headers: this._headers,
-      method: "PUT"
+      method: "PUT",
+    }).then((response) => {
+      return this._checkResponse(response);
     });
   }
 
-  deleteLike(id){
+  deleteLike(id) {
     return fetch(`${this._url}/${this._cohortId}/cards/${id}/likes`, {
       headers: this._headers,
-      method: "DELETE"
+      method: "DELETE",
+    }).then((response) => {
+      return this._checkResponse(response);
     });
   }
 
@@ -60,8 +74,18 @@ export class Api {
     return fetch(`${this._url}/${this._cohortId}/users/me/avatar`, {
       headers: this._headers,
       method: "PATCH",
-      body: JSON.stringify({avatar: url}),
+      body: JSON.stringify({ avatar: url }),
+    }).then((response) => {
+      return this._checkResponse(response);
     });
+  }
+
+  _checkResponse(response) {
+    if (response.ok === false) {
+      return Promise.reject(new Error(response.statusText));
+    } else {
+      return response.json();
+    }
   }
 }
 export default Api;

@@ -12,14 +12,9 @@ import {
   photoContainer,
   validationConfig,
   editButtonProfile,
-  closeButtonProfile,
   popupFormEditProfile,
   addButtonPhoto,
-  closeButtonPhoto,
-  closeButtonView,
   popupFormAddPhoto,
-  viewPhoto,
-  viewTitle,
   popupView,
   profileName,
   profileStatus,
@@ -30,31 +25,21 @@ import {
   popupFormClass,
   profileAvatar,
   profileAvatarArea,
-  closeButtonPopupDeleteCard,
   classHiddenElement,
   likeClassDark,
   popupEditAvatar,
   formEditAvatar,
-  closeButtonAvatar,
 } from "../utils/utils.js";
 
-const cardsSection = new Section(
-  {
-    items: [],
-    render: (item) => {
-      const photoElement = createNewCard(item);
-      cardsSection.addItem(photoElement);
-    },
-  },
-  photoContainer
-);
+const cardsSection = new Section((item) => {
+  const photoElement = createNewCard(item);
+  cardsSection.addItem(photoElement);
+}, photoContainer);
 
 const userInfo = new UserInfo({
   nameElement: profileName,
   statusElement: profileStatus,
 });
-
-let userId = userInfo.getUserId();
 
 const api = new Api({
   url: "https://mesto.nomoreparties.co/v1",
@@ -69,71 +54,40 @@ const popupDelete = new PopupWithConfirmation(
   popupDeleteCard,
   popupOpenedClass,
   () => {
+    const params = popupDelete.getParams();
     api
-      .deleteCard(popupDelete.getParams())
-      .then((response) => {
-        if (response.ok === false) {
-          return Promise.reject(new Error(response.statusText));
-        } else {
-          return response.json();
-        }
-      })
+      .deleteCard(params.idCard)
       .then(() => {
-        loadCards();
+        const parent = params.element.parentNode;
+        parent.removeChild(params.element);
+        popupDelete.resetParamsPopup();
+        popupDelete.close();
       })
       .catch((error) => {
         console.log(error);
       })
-      .finally(() => {
-        popupDelete.resetParamsPopup();
-        popupDelete.close();
-      });
+      .finally(() => {});
   },
-  closeButtonPopupDeleteCard,
   popupFormClass
 );
 
-api
-  .getUserInfo()
-  .then((response) => {
-    if (response.ok === false) {
-      return Promise.reject(new Error(response.statusText));
-    } else {
-      return response.json();
-    }
-  })
-  .then((data) => {
+Promise.all([api.getUserInfo(), api.getCards()]).then(
+  ([info, initialsCards]) => {
     userInfo.setUserInfo({
-      nameUser: data.name,
-      statusUser: data.about,
-      id: data._id,
+      nameUser: info.name,
+      statusUser: info.about,
+      id: info._id,
+      avatarUrl: info.avatar,
     });
-    userId = userInfo.getUserId();
-    profileAvatar.src = data.avatar;
-    loadCards();
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+    profileAvatar.src = userInfo.getAvatarUrl();
+    initialsCards.forEach((card) => {
+      cardsSection.render(card);
+    }).catch((error) => {
+          console.log(error);
+        });
+  }
+);
 
-function loadCards() {
-  api
-    .getCards()
-    .then((response) => {
-      if (response.ok === false) {
-        return Promise.reject(new Error(response.statusText));
-      } else {
-        return response.json();
-      }
-    })
-    .then((data) => {
-      cardsSection.setItems(data);
-      cardsSection.renderElements();
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
 const formAddPhotoValidation = new FormValidation(
   validationConfig,
   popupFormAddPhoto
@@ -147,26 +101,18 @@ const popupAddNewPlace = new PopupWithForm(
     popupAddNewPlace.setSubmitTitle("Сохранение ...");
     api
       .addNewCard({ name: data.newPhotoName, link: data.newPhotoLink })
-      .then((response) => {
-        if (response.ok === false) {
-          return Promise.reject(new Error(response.statusText));
-        } else {
-          return response.json();
-        }
-      })
       .then((data) => {
         const photoElement = createNewCard(data);
         cardsSection.addItem(photoElement);
+        popupAddNewPlace.close();
       })
       .catch((error) => {
         console.log(error);
       })
       .finally(() => {
         popupAddNewPlace.setSubmitTitle("Сохранить");
-        popupAddNewPlace.close();
       });
   },
-  closeButtonPhoto,
   validationConfig.inputPopupClass,
   popupFormClass
 );
@@ -184,25 +130,18 @@ const popupFormEditAvatar = new PopupWithForm(
     popupFormEditAvatar.setSubmitTitle("Сохранение ...");
     api
       .updateAvatar(data.newAvatarLink)
-      .then((response) => {
-        if (response.ok === false) {
-          return Promise.reject(new Error(response.statusText));
-        } else {
-          return response.json();
-        }
-      })
       .then((data) => {
-        profileAvatar.src = data.avatar;
+        userInfo.setAvatarUrl(data.avatar);
+        profileAvatar.src = userInfo.getAvatarUrl();
+        popupFormEditAvatar.close();
       })
       .catch((error) => {
         console.log(error);
       })
       .finally(() => {
         popupFormEditAvatar.setSubmitTitle("Сохранить");
-        popupFormEditAvatar.close();
       });
   },
-  closeButtonAvatar,
   validationConfig.inputPopupClass,
   popupFormClass
 );
@@ -220,36 +159,26 @@ const popupEditProfile = new PopupWithForm(
     popupEditProfile.setSubmitTitle("Сохранение ...");
     api
       .saveProfileData({ name: data.nameUser, about: data.statusUser })
-      .then((response) => {
-        if (response.ok === false) {
-          return Promise.reject(new Error(response.statusText));
-        } else {
-          return response.json();
-        }
-      })
       .then((data) => {
-        userInfo.setUserInfo({ nameUser: data.name, statusUser: data.about });
+        userInfo.setUserInfo({
+          nameUser: data.name,
+          statusUser: data.about,
+          id: data._id,
+        });
+        popupEditProfile.close();
       })
       .catch((error) => {
         console.log(error);
       })
       .finally(() => {
         popupEditProfile.setSubmitTitle("Сохранить");
-        popupEditProfile.close();
       });
   },
-  closeButtonProfile,
   validationConfig.inputPopupClass,
   popupFormClass
 );
 
-const viewPopup = new PopupWithImage(
-  popupView,
-  popupOpenedClass,
-  viewPhoto,
-  viewTitle,
-  closeButtonView
-);
+const viewPopup = new PopupWithImage(popupView, popupOpenedClass);
 
 function createNewCard(data) {
   const card = new Card(
@@ -259,20 +188,16 @@ function createNewCard(data) {
       viewPopup.open(element);
     },
     () => {
-      popupDelete.setParamsPopup(card.getCardId());
+      popupDelete.setParamsPopup({
+        idCard: card.getCardId(),
+        element: card.getElement(),
+      });
       popupDelete.open();
     },
     () => {
       if (card.likeIsDark()) {
         api
           .deleteLike(card.getCardId())
-          .then((response) => {
-            if (response.ok === false) {
-              return Promise.reject(new Error(response.statusText));
-            } else {
-              return response.json();
-            }
-          })
           .then((response) => {
             card.setLikes(response.likes);
             card.deleteDarkLike();
@@ -284,13 +209,6 @@ function createNewCard(data) {
       } else {
         api
           .setLike(card.getCardId())
-          .then((response) => {
-            if (response.ok === false) {
-              return Promise.reject(new Error(response.statusText));
-            } else {
-              return response.json();
-            }
-          })
           .then((response) => {
             card.setLikes(response.likes);
             card.setDarkLike();
@@ -304,13 +222,10 @@ function createNewCard(data) {
     likeClassDark
   );
 
-  const photoElement = card.generateCard();
-  if (card.getOwnerId() === userInfo.getUserId()) {
-    card.unsetHiddenDelete(classHiddenElement);
-  }
-  if (card.containsMyLike(userId)) {
-    card.setDarkLike();
-  }
+  const photoElement = card.generateCard(
+    userInfo.getUserId(),
+    classHiddenElement
+  );
   return photoElement;
 }
 

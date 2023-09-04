@@ -12,7 +12,7 @@ class Card {
     this._likeClassDark = likeClassDark;
   }
 
-  generateCard() {
+  generateCard(thisUserId, classHiddenElement) {
     this._element = this._getTemplate();
     this._elementLike = this._element.querySelector(".element__like");
     this._elementDelete = this._element.querySelector(".element__delete");
@@ -21,6 +21,13 @@ class Card {
     this.updateCountLikes();
     this._setValues();
     this._setEventListener();
+
+    if (this._idOwner === thisUserId) {
+      this._unsetHiddenDelete(classHiddenElement);
+    }
+    if (this._containsMyLike(thisUserId)) {
+      this.setDarkLike();
+    }
     return this._element;
   }
 
@@ -48,15 +55,19 @@ class Card {
     return this._id;
   }
 
+  getElement() {
+    return this._element;
+  }
+
   getOwnerId() {
     return this._idOwner;
   }
 
-  unsetHiddenDelete(classHidden){
+  _unsetHiddenDelete(classHidden){
     this._elementDelete.classList.remove(classHidden);
   }
 
-  containsMyLike(id) {
+  _containsMyLike(id) {
     return this._likes.some((like) => {
       return like._id === id;
     });
