@@ -4,8 +4,10 @@ export class Section {
     this._container = container;
   }
 
-  render(item) {
-    this._render(item);
+  render(items) {
+    items.forEach((item) => {
+      this._render(item);
+    });
   }
 
   addItem(itemElement) {
@@ -13,7 +15,7 @@ export class Section {
   }
 
   clear() {
-    this._container.innerHTML = '';
+    this._container.innerHTML = "";
   }
 }
 

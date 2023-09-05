@@ -63,6 +63,10 @@ class Card {
     return this._idOwner;
   }
 
+  removeCard() {
+    this._element.parentNode.removeChild(this._element);
+  }
+
   _unsetHiddenDelete(classHidden){
     this._elementDelete.classList.remove(classHidden);
   }

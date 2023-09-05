@@ -39,6 +39,7 @@ const cardsSection = new Section((item) => {
 const userInfo = new UserInfo({
   nameElement: profileName,
   statusElement: profileStatus,
+  avatarElement: profileAvatar
 });
 
 const api = new Api({
@@ -56,10 +57,11 @@ const popupDelete = new PopupWithConfirmation(
   () => {
     const params = popupDelete.getParams();
     api
-      .deleteCard(params.idCard)
+      .deleteCard(params.getCardId())
       .then(() => {
-        const parent = params.element.parentNode;
-        parent.removeChild(params.element);
+        // const parent = params.element.parentNode;
+        // parent.removeChild(params.element);
+        params.removeCard();
         popupDelete.resetParamsPopup();
         popupDelete.close();
       })
@@ -71,22 +73,19 @@ const popupDelete = new PopupWithConfirmation(
   popupFormClass
 );
 
-Promise.all([api.getUserInfo(), api.getCards()]).then(
-  ([info, initialsCards]) => {
+Promise.all([api.getUserInfo(), api.getCards()])
+  .then(([info, initialsCards]) => {
     userInfo.setUserInfo({
       nameUser: info.name,
       statusUser: info.about,
       id: info._id,
       avatarUrl: info.avatar,
     });
-    profileAvatar.src = userInfo.getAvatarUrl();
-    initialsCards.forEach((card) => {
-      cardsSection.render(card);
-    }).catch((error) => {
-          console.log(error);
-        });
-  }
-);
+    cardsSection.render(initialsCards);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
 const formAddPhotoValidation = new FormValidation(
   validationConfig,
@@ -131,8 +130,7 @@ const popupFormEditAvatar = new PopupWithForm(
     api
       .updateAvatar(data.newAvatarLink)
       .then((data) => {
-        userInfo.setAvatarUrl(data.avatar);
-        profileAvatar.src = userInfo.getAvatarUrl();
+        userInfo.updateAvatar(data.avatar);
         popupFormEditAvatar.close();
       })
       .catch((error) => {
@@ -188,10 +186,11 @@ function createNewCard(data) {
       viewPopup.open(element);
     },
     () => {
-      popupDelete.setParamsPopup({
-        idCard: card.getCardId(),
-        element: card.getElement(),
-      });
+      // popupDelete.setParamsPopup({
+      //   idCard: card.getCardId(),
+      //   element: card.getElement(),
+      // });
+      popupDelete.setParamsPopup(card);
       popupDelete.open();
     },
     () => {

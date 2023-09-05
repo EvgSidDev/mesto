@@ -1,8 +1,8 @@
 export class UserInfo {
-  constructor({nameElement, statusElement, id}) {
+  constructor({nameElement, statusElement, avatarElement, id}) {
     this._nameUser = nameElement;
     this._statusUser = statusElement;
-    this._id = id;
+    this._avatar =  avatarElement;
   }
 
   getUserInfo() {
@@ -13,19 +13,15 @@ export class UserInfo {
     this._nameUser.textContent = nameUser;
     this._statusUser.textContent = statusUser;
     this._id = id;
-    this._avatarUrl = avatarUrl;
+    this._avatar.src = avatarUrl;
   }
 
   getUserId() {
     return this._id;
   }
 
-  setAvatarUrl(url) {
-    this._avatarUrl = url;
-  }
-
-  getAvatarUrl() {
-    return this._avatarUrl;
+  updateAvatar(url) {
+    this._avatar.src = url;
   }
 
 }
